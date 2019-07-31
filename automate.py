@@ -1,32 +1,19 @@
-import json
-import csv
 import pandas as pd
+import argparse
 
-#newtitle,oldtitle = set(),set()
-#newfile=json.load(open("items.json"))
-#oldfile = json.load(open("old.json"))
-#
-#for i in newfile:
-#    newtitle.add(i["title"])
-#for i in oldfile:
-#    oldtitle.add(i["title"])
-#
-#with open("items.csv","w") as newcsvfile, open("old.csv","w") as oldcsvfile:
-#    l=set()
-#    for i in newfile:
-#        l=l.union(i.keys())
-#    fieldnames=list(l)
-#    writer = csv.DictWriter(newcsvfile, fieldnames=fieldnames)
-#    writer.writeheader()
-#    for i in newfile:
-#        writer.writerow(i)
-#    writer = csv.DictWriter(oldcsvfile, fieldnames=fieldnames)
-#    writer.writeheader()
-#    for i in oldfile:
-#        writer.writerow(i)
-new_df= pd.read_csv("items.csv")
-old_df= pd.read_csv("old.csv")
-removed = old_df[old_df["title"].isin(set(old_df["title"]) - set(new_df["title"]))]
-increased = new_df[new_df["title"].isin(set(new_df["title"]) - set(old_df["title"]))]
-removed.to_csv("removed.csv",index=False)
-increased.to_csv("newly_added.csv",index=False)
+
+def main():
+    parser = argparse.ArgumentParser(description="Your are suppose to use it \n >>> python automate.py new.csv old.csv")
+    parser.add_argument("new", type=str,help="Specify the new csv file")
+    parser.add_argument("old", type=str,help="Specify old csv file")
+    args = parser.parse_args()
+    new_df= pd.read_csv(args.new)
+    old_df= pd.read_csv(args.old)
+    assert new_df.shape[1] ==old_df.shape[1] ,"The Two Csv files have different number of columns. Please check"
+    removed = old_df[old_df["title"].isin(set(old_df["title"]) - set(new_df["title"]))]
+    increased = new_df[new_df["title"].isin(set(new_df["title"]) - set(old_df["title"]))]
+    removed.to_csv("removed.csv",index=False)
+    increased.to_csv("newly_added.csv",index=False)
+
+if __name__ =="__main__":
+    main()

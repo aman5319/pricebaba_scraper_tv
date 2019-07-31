@@ -7,6 +7,7 @@
 import json
 from termcolor import colored
 import csv
+from datetime import datetime
 
 class BforePipeline(object):
 
@@ -14,9 +15,8 @@ class BforePipeline(object):
         self.li = []
 
     def close_spider(self, spider):
-        with open('items.json', 'w') as jsonfile:
-            jsonfile.write("["+",\n".join(self.li)+"]")
-        with open("items.csv","w") as csvfile:
+        file_name = datetime.strftime(datetime.now(),"TV_%a_%b_%d_%Y_%I:%M:%S_%p.csv")
+        with open(file_name,"w") as csvfile:
             l=set()
             for i in self.li:
                 l=l.union(json.loads(i).keys())
@@ -25,7 +25,6 @@ class BforePipeline(object):
             writer.writeheader()
             for i in self.li:
                 writer.writerow(json.loads(i))
-
 
     def process_item(self, item, spider):
         d={}

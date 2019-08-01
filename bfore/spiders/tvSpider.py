@@ -13,7 +13,6 @@ class TvspiderSpider(Spider):
     start_urls = ['https://pricebaba.com/television/pricelist/televisions-price-list-in-india/']
 
     def parse(self, response):
-        response.css("div.m-t-0").css("div.txt-al-c img::attr(alt) ").getall()
         urls = response.css("div.m-t-0").css("span.target_link::attr(data-href)").getall()[0::3]
         for url in urls:
             yield scrapy.Request(url=url , callback=self.detail_parser)

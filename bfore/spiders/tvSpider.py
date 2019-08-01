@@ -8,8 +8,7 @@ import pandas as pd
 from .spider_utils import  *
 
 class TvspiderSpider(Spider):
-    name = 'tvSpider'
-    
+    name = 'tvSpider' 
     start_urls = ['https://pricebaba.com/television/pricelist/televisions-price-list-in-india/']
 
     def parse(self, response):
@@ -19,7 +18,7 @@ class TvspiderSpider(Spider):
         next_page_url = response.css("a[rel=next] ::attr(href)").get()
         if next_page_url is not None:
             yield response.follow(url=next_page_url, callback=self.parse)
-    
+
     def detail_parser(self,response):
         l = ItemLoader(item = BforeItem() , response = response)
         l.add_value("product_url",response.url)
@@ -37,8 +36,8 @@ class TvspiderSpider(Spider):
         model_name = table_content.css(".m-t-s .txt-wt-m ::text").get()
         update_value = pre_process_date(response.css("div[class=blk\ ord-23] ::text").get())
         l.add_value("launched_in",launched_in)
-        l.add_value("model_name",model_name,)
-        l.add_value("update_on_price_baba",update_value,)
+        l.add_value("model_name",model_name)
+        l.add_value("update_on_price_baba",update_value)
         ratings ,reviews = response.css(".txt-underline").css(".txt-wt-b ::text").getall()
         l.add_value("no_of_people_rated",ratings)
         l.add_value("no_of_review",reviews)

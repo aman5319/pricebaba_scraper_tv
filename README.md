@@ -18,7 +18,7 @@
        scrapy crawl tvSpider
        ```
 
-5. For Comparison in two csv files 
+5. For Comparison in two csv files // To check which models have been added and which ones have to be deleted from our listings
 
    1. ```
       python automate.py new.csv old.csv

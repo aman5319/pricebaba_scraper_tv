@@ -12,7 +12,7 @@
 
       
 
-4. For runing the spider
+4. For runing the spider // To scrap all TV details from PriceBaba
 
     1. ```
        scrapy crawl tvSpider
